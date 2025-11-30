@@ -2,32 +2,20 @@ import { useState } from 'react'
 import './App.css'
 import ScoreDisplay from './components/ScoreDisplay';
 import ActionButton from './components/ActionButton';
+import Player from './components/Players';
 
+//trzyma wyniki w pamięci
+//<number> oznacza e w tym use =State będzie uyta liczba
 function App() {
-  const [points, setPoints] = useState(0);
+  const[playerA, setPlayerA] = useState<number>(0);
+  const[playerB, setPlayerB] = useState<number>(0);
   
   return (
     <>
-      {/* to będziemy usuwać */}
-      <h1>Moja pierwsza aplikacja React</h1> 
-      <p>Wszytsko co wpiszemy w return() wyświetla się na ekranie!</p>
-      <p>Działanie useStates:</p>
-      <h2> Punkty: {points}</h2>
-
-      <div>
-        <button onClick={() => setPoints(points+1)}>
-          Dodaj punkt
-        </button>
-        <button onClick={() => setPoints(0)}>
-          Resetuj punkty
-        </button>
-      </div>
-      {/* do tąd */}
-
-      <ScoreDisplay points={points} /> 
-      <ActionButton onClick={() => setPoints(points+10)} label='+10' />
-      <ActionButton onClick={() => setPoints(points-5)} label='-5' />
-      <ActionButton onClick={() => setPoints(0)} label='reset' />
+      <h1>Gra dla dwóch graczy</h1>
+      <Player name='Gracz A' score={playerA} onAddPoint={() => setPlayerA(playerA+1)} />
+      <Player name='Gracz B' score={playerB} onAddPoint={() => setPlayerB(playerB+1)} />
+      <button onClick = {() => {setPlayerA(0); setPlayerB(0);}}> Reset obu graczy</button>
     </>
   )
 }
