@@ -1,14 +1,13 @@
-import { useState } from 'react'
 import './App.css'
+import Board from './components/Board'
 
-//trzyma wyniki w pamięci
-//<number> oznacza e w tym use =State będzie uyta liczba
 function App() {
 
   return (
-    <>
-     
-    </>
+    <div className='app'>
+      <h1>Gra Memory</h1>
+      <Board />
+    </div>
   )
 }
 
