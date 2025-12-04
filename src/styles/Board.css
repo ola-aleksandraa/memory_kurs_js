@@ -1,5 +1,14 @@
 .board{
     display: grid;
     justify-content: center;
-    background-color: red;
+    background-color: red;  
+    grid-template-columns: repeat(4, var(--card-size));
+    gap: var(--gap);
+
 }
+
+h2 {
+    grid-column: 1 / -1;   /* od pierwszej do ostatniej kolumny */
+    margin-bottom: 1rem;   /* odstęp od kart (opcjonalnie) */
+    text-align: left;      /* lub center, jak wolisz */
+  }
