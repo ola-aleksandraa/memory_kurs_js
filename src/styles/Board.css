@@ -2,8 +2,8 @@
     display: grid;
     justify-content: center;
     background-color: red;  
-    grid-template-columns: repeat(4, var(--card-size));
-    gap: var(--gap);
+    grid-template-columns: repeat(4, var(--card-size)); /*tylko 4 karty mogą byc w jednym rzędzie*/
+    gap: var(--gap); /*przestrzeń pomiędzy elementami*/
 
 }
 
