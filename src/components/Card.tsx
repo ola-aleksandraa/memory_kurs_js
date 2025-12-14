@@ -1,8 +1,12 @@
 import './../styles/Card.css'
 
-function Card () {
+interface CardProps{
+    value: string;
+}
 
-    return <div className='card'>Karta</div>;
+function Card ({value}: CardProps) {
+
+    return <div className='card'>{value}</div>;
 }
 
 export default Card;
