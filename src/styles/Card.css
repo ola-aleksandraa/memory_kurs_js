@@ -4,3 +4,33 @@
     cursor: pointer;
     border: 2px dashed blue;
 }
+
+.card-inner {
+    position: relative; /* ustawiamy position relative, aby position absolute w 'dziecku', był zależny od wielkości tego elementu */
+    width: 100%; /* ustawiamy żeby był taki sam wielkościowo jak element nadrzędny */
+    height: 100%;
+    transform-style: preserve-3d; /* iformuje przeglądarke, ze element ma być zachownay w przestrzeni 3D aby dało się go obrócić  */
+    transition: transofrm 0.4s; /*czas trwania obrotu*/
+}
+
+/* Gdy element .card ma klasę flipped, jego wewnętrzny element .card-inner zostaje obrócony o 180° wokół osi Y, co powoduje wizualne odwrócenie karty. */
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+position: absolute; /* pozycja nie jest zalena od innych elementów wewnątzr rodzica */
+width: 100%; /* ustawiamy żeby był taki sam wielkościowo jak element nadrzędny */
+height: 100%;
+backface-visibility: hidden; /* aby rewers nie był widoczny i się nie nadpisywał */
+}
+
+.card-front {
+    background-color: pink;
+}
+
+.card-back {
+    background-color: aqua;
+    transform: rotateY(180deg); /* początkowo rewers ustawiamy na 180 stopni */
+}
