@@ -3,20 +3,16 @@ import { useState } from 'react';
 
 interface CardProps{
     value: string;
+    flipped: boolean;
+    onClickToBoard: () => void;
 }
 
-function Card ({value}: CardProps) {
+function Card ({value, flipped, onClickToBoard}: CardProps) {
 
-    //false - kara zakryta
-    //trude - karta odkryta
-    const[flipped, setFlipped] = useState(false);
-    //handler odrwacał wartośc booleana
-    const handleClick = () => {
-        setFlipped(!flipped);
-    }
+   
 
     return (
-        <div className={`card ${flipped ? 'flipped' : ''}`} onClick={handleClick}>
+        <div className={`card ${flipped ? 'flipped' : ''}`} onClick={onClickToBoard}>
             <div className='card-inner'>
                 <div className='card-front'>?</div>
                 <div className='card-back'>{value}</div>
