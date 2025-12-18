@@ -26,6 +26,9 @@ function App() {
   //useState, który bedzie przechowywał i zmieniał moliwośc zmiany poziomu
   const[isGameChangePossible, setIsGameChangePossible] = useState(true);
 
+  //useState, który będzie przekazywał czy kliknelismy przycisk resetu gry
+  const[newGameFlag, setNewGameFlag] = useState(false);
+
   //handleChange to funkcja, która obsługuje zmianę w <select>
   //e to jest to co my klikamy - element select
   //e.target.value to wybrana wartośc z <select>
@@ -59,6 +62,13 @@ function App() {
   //setCards pozwala zmienić tablicę kart na planszy 
   const[cards, setCards] = useState<string[]>(getBoard(level));
 
+  useEffect(() => {
+    if(newGameFlag){
+      setCards(getBoard(level));
+      setNewGameFlag(false);
+    }
+  }, [newGameFlag]);
+
   return (
     <div className='app'>
       <h1>Gra Memory</h1>
@@ -72,7 +82,10 @@ function App() {
         </select>
       </label>
       </div>
-      <Board cards={cards} level={level} setIsGameChangePossible={setIsGameChangePossible}/>
+      <Board cards={cards} level={level} setIsGameChangePossible={setIsGameChangePossible} newGameFlag={newGameFlag} setNewGameFlag={setNewGameFlag}/>
+      <div className='newGame'>
+        <button onClick={() => {setNewGameFlag(true)}}>Nowa Gra</button>
+      </div>
     </div>
   );
 }
