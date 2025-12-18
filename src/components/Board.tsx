@@ -1,6 +1,6 @@
 import Card from "./Card";
 import './../styles/Board.css'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 interface BoardProps{
@@ -61,12 +61,20 @@ function Board({cards, level, setIsGameChangePossible} : BoardProps) {
                 }, 400);
             }
         }
-
     }
 
-    
+    const gameWonDetected = () => {
+        console.log("GRA WYGRANA!");
+        alert("Gratulacje! Wygrałaś grę!");
+    }
 
-    
+    //wykrywanie konca gry
+    useEffect(() => {
+        if(pairCards.length === cards.length && cards.length>0){
+            gameWonDetected();
+        }
+    }, [pairCards]);
+        
     
     return (
         <div className={`board ${level}`}>
