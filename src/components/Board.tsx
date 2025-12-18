@@ -6,6 +6,7 @@ import { useState } from "react";
 interface BoardProps{
     cards: string[];
     level: "easy" | "medium" | "hard";
+    setIsGameChangePossible: (value: boolean) => void;
 }
 
 interface FlippedCard{
@@ -13,7 +14,7 @@ interface FlippedCard{
     value: string;
 }
 
-function Board({cards, level} : BoardProps) {
+function Board({cards, level, setIsGameChangePossible} : BoardProps) {
 
     const[flippedCards, setFlippedCards] = useState<FlippedCard[]>([]);
 
@@ -22,6 +23,12 @@ function Board({cards, level} : BoardProps) {
 
     //stan blokujący mozliwośc odwracania nowych kart
     const[disabled, setDisabled] = useState(false);
+
+    const handleGameStart = () => {
+
+        setIsGameChangePossible(false);
+        
+    }
 
    
     const handleCardClick = (index: number, value: string) => {
@@ -33,6 +40,10 @@ function Board({cards, level} : BoardProps) {
 
         if(flippedCards.find(myCard => myCard.index == index)){
             return;
+        }
+
+        if(flippedCards.length==0 && pairCards.length==0){
+            handleGameStart();
         }
 
         if(newFlippedCards.length == 2){
