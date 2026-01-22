@@ -39,6 +39,9 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
     //stan przechoujący stan gry
     const[gameState, setGameState] = useState<boolean | undefined>(undefined);
 
+    //stan dla liczby kroków
+    const[steps, setSteps] = useState<number>(0);
+
     const handleGameStart = () => {
 
         setIsGameChangePossible(false);
@@ -51,16 +54,15 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
 
         //uruchamiamy licznik
         startTimer();
+
+        //zerujemy liczbe wykonanych kroków
+        setSteps(0);
         
     }
 
    
     const handleCardClick = (index: number, value: string) => {
         if (disabled) return;
-
-        //tworzymy kopie tablicy flippedCards i dodajemy do niej index i value tej kliknietej karty
-        const newFlippedCards = [...flippedCards, {index, value}];
-        setFlippedCards(newFlippedCards);
 
         if(flippedCards.find(myCard => myCard.index == index)){
             return;
@@ -69,6 +71,13 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
         if(flippedCards.length==0 && pairCards.length==0 && timer==0){
             handleGameStart();
         }
+
+        //tworzymy kopie tablicy flippedCards i dodajemy do niej index i value tej kliknietej karty
+        const newFlippedCards = [...flippedCards, {index, value}];
+        setFlippedCards(newFlippedCards);
+
+        //zwiekszamy liczbę ruchuów
+        setSteps(nOSteps => nOSteps +1);
 
         if(newFlippedCards.length == 2){
             if (newFlippedCards[0].value == value){
@@ -120,6 +129,9 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
         //zerujemy licznik
         setTimer(0);
 
+        //zerujemy liczbe kroków
+        setSteps(0);
+
         setTimeout(() => {
             setNewGameFlag(false);
             setDisabled(false);
@@ -154,7 +166,7 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
     
     return (
         <div className="game-container">
-            <GameStats timer={timer} pairsFound={pairCards.length / 2} totalPairs={cards.length / 2} gameState={gameState} />
+            <GameStats timer={timer} steps = {steps} pairsFound={pairCards.length / 2} totalPairs={cards.length / 2} gameState={gameState} />
             <div className={`board ${level}`}>
                 {cards.map((card, index) => (
                     <Card 
