@@ -27,9 +27,23 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
     //stan blokujący mozliwośc odwracania nowych kart
     const[disabled, setDisabled] = useState(false);
 
+    //stan przechowujący czas gry
+    const[timer, setTimer] = useState<number>(0);
+
+    //stan przechowujący informacje czy licznik jest aktywny
+    //<number | undefined> - timer jest albo liczbą, albo jest niezdefiniowany (nie istnieje)
+    //undefinded - timer jeszcze nie istnieje
+    const[timerID, setTimerID] = useState<number | undefined>(undefined) 
+
     const handleGameStart = () => {
 
         setIsGameChangePossible(false);
+
+        //resetujemy licznik przed rozpoczęciem nowej gry
+        setTimer(0);
+
+        //uruchamiamy licznik
+        startTimer();
         
     }
 
@@ -45,7 +59,7 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
             return;
         }
 
-        if(flippedCards.length==0 && pairCards.length==0){
+        if(flippedCards.length==0 && pairCards.length==0 && timer==0){
             handleGameStart();
         }
 
@@ -67,8 +81,12 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
     }
 
     const gameWonDetected = () => {
+        //zatrzymujemy timer
+        stopTimer();
+
         console.log("GRA WYGRANA!");
-        alert("Gratulacje! Wygrałaś grę!");
+        //timer.toFixed(1) formatuje liczbę do podanej liczby po przecinku
+        alert("Gratulacje! Wygrałaś grę! w czasie " + timer.toFixed(1) + " sekund.");
     }
 
     //wykrywanie konca gry
@@ -83,19 +101,42 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
         setPairCards([]);
         setFlippedCards([]);
 
+        //zatrzymujemy licznik czasu
+        stopTimer();
+
+        //zerujemy licznik
+        setTimer(0);
+
         setTimeout(() => {
             setNewGameFlag(false);
             setDisabled(false);
             setIsGameChangePossible(true);
         }, CARD_FLIP_DURATION)
-
-        //reset gry po ustawieniu flagi newGameFlag na true
-        useEffect(() => {
-            if(newGameFlag){
-                resetGame();
-            }
-        }, [newGameFlag])
     }
+
+    //reset gry po ustawieniu flagi newGameFlag na true
+    useEffect(() => {
+        if(newGameFlag){
+            resetGame();
+        }
+    }, [newGameFlag])
+
+    const startTimer = () => {
+        if (timerID) return //jeeli licznik ju działa to nic nie rób
+        setTimerID(setInterval(() => {
+            setTimer(prevTimer => {
+                return prevTimer + 0.1;
+            });
+        }, 100));
+    }
+
+    const stopTimer = () => {
+        if (timerID) {
+            clearInterval(timerID);
+            setTimerID(undefined);
+        }
+    }
+  
         
     
     return (
