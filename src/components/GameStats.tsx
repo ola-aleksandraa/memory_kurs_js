@@ -1,3 +1,5 @@
+import '../styles/GameStats.css'
+
 interface GameStatsProps {
     timer: number;
     steps: number;

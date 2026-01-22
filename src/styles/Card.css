@@ -2,7 +2,6 @@
     width: var(--card-size);
     height: var(--card-size);
     cursor: pointer;
-    border: 2px dashed blue;
 }
 
 .card-inner {
@@ -20,17 +19,32 @@
 
 .card-front,
 .card-back {
-position: absolute; /* pozycja nie jest zalena od innych elementów wewnątzr rodzica */
-width: 100%; /* ustawiamy żeby był taki sam wielkościowo jak element nadrzędny */
-height: 100%;
-backface-visibility: hidden; /* aby rewers nie był widoczny i się nie nadpisywał */
+    position: absolute; /* pozycja nie jest zalena od innych elementów wewnątzr rodzica */
+    width: 100%; /* ustawiamy żeby był taki sam wielkościowo jak element nadrzędny */
+    height: 100%;
+    backface-visibility: hidden; /* aby rewers nie był widoczny i się nie nadpisywał */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 .card-front {
-    background-color: pink;
+    background-color: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
 }
 
 .card-back {
-    background-color: aqua;
     transform: rotateY(180deg); /* początkowo rewers ustawiamy na 180 stopni */
+    border: 2px solid black;
+    font-size: 48px;
+}
+
+.card-front img, .card-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* obrazek wypełni całą kartę */
+    border-radius: var(--radius);
 }

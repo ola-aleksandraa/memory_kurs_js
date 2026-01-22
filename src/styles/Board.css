@@ -1,9 +1,11 @@
 .board{
     display: grid;
     justify-content: center;
-    background-color: red;  
+    background-color: transparent;  
     grid-template-columns: repeat(4, var(--card-size)); /*tylko 4 karty mogą byc w jednym rzędzie*/
     gap: var(--gap); /*przestrzeń pomiędzy elementami*/
+    padding: 10px;
+    padding-bottom: 20px;
 
 }
 
@@ -21,4 +23,11 @@ h2 {
   }
   .board.hard {
     grid-template-columns: repeat(6, var(--card-size));
+  }
+
+  .game-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 24px;
+    align-items: start;
   }
