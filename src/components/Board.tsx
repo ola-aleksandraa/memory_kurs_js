@@ -1,7 +1,8 @@
 import Card from "./Card";
 import './../styles/Board.css'
 import { useState, useEffect } from "react";
-import {CARD_FLIP_DURATION} from "../assets/constants"
+import {CARD_FLIP_DURATION} from "../assets/constants";
+import GameStats from "./GameStats";
 
 
 interface BoardProps{
@@ -33,7 +34,10 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
     //stan przechowujący informacje czy licznik jest aktywny
     //<number | undefined> - timer jest albo liczbą, albo jest niezdefiniowany (nie istnieje)
     //undefinded - timer jeszcze nie istnieje
-    const[timerID, setTimerID] = useState<number | undefined>(undefined) 
+    const[timerID, setTimerID] = useState<number | undefined>(undefined); 
+
+    //stan przechoujący stan gry
+    const[gameState, setGameState] = useState<boolean | undefined>(undefined);
 
     const handleGameStart = () => {
 
@@ -41,6 +45,9 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
 
         //resetujemy licznik przed rozpoczęciem nowej gry
         setTimer(0);
+
+        //ustaiwamy stan gry na rozpoczety
+        setGameState(true);
 
         //uruchamiamy licznik
         startTimer();
@@ -84,6 +91,9 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
         //zatrzymujemy timer
         stopTimer();
 
+        //ustawiamy stan gry na zakończony
+        setGameState(false);
+
         console.log("GRA WYGRANA!");
         //timer.toFixed(1) formatuje liczbę do podanej liczby po przecinku
         alert("Gratulacje! Wygrałaś grę! w czasie " + timer.toFixed(1) + " sekund.");
@@ -97,6 +107,9 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
     }, [pairCards]);
 
     const resetGame = () => {
+        //usuwamy tan gry
+        setGameState(undefined);
+
         // zakrywamy karty, czyli zerujemy tablice pairedCards i flippedCards
         setPairCards([]);
         setFlippedCards([]);
@@ -140,14 +153,18 @@ function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFl
         
     
     return (
-        <div className={`board ${level}`}>
-            {cards.map((card, index) => (
-                <Card 
-                key={index} 
-                value={card}
-                flipped = {(flippedCards.find((card) => card.index === index)) || pairCards.find((card) => card.index === index) ? true : false} 
-                onClickToBoard={() => handleCardClick(index, card)}/>  
-            ))}                                     
+        <div className="game-container">
+            <GameStats timer={timer} pairsFound={pairCards.length / 2} totalPairs={cards.length / 2} gameState={gameState} />
+            <div className={`board ${level}`}>
+                {cards.map((card, index) => (
+                    <Card 
+                    key={index} 
+                    value={card}
+                    flipped = {(flippedCards.find((card) => card.index === index)) || pairCards.find((card) => card.index === index) ? true : false} 
+                    onClickToBoard={() => handleCardClick(index, card)}/>  
+                ))}                                     
+            </div>
+            <div className="game-score"></div>
         </div>
     );
 
