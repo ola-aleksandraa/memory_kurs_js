@@ -10,7 +10,7 @@
     width: 100%; /* ustawiamy żeby był taki sam wielkościowo jak element nadrzędny */
     height: 100%;
     transform-style: preserve-3d; /* iformuje przeglądarke, ze element ma być zachownay w przestrzeni 3D aby dało się go obrócić  */
-    transition: transofrm 0.4s; /*czas trwania obrotu*/
+    transition: transofrm var(--card-flip-duration); /*czas trwania obrotu*/
 }
 
 /* Gdy element .card ma klasę flipped, jego wewnętrzny element .card-inner zostaje obrócony o 180° wokół osi Y, co powoduje wizualne odwrócenie karty. */

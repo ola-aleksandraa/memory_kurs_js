@@ -1,6 +1,7 @@
 import Card from "./Card";
 import './../styles/Board.css'
 import { useState, useEffect } from "react";
+import {CARD_FLIP_DURATION} from "../assets/constants"
 
 
 interface BoardProps{
@@ -16,7 +17,7 @@ interface FlippedCard{
     value: string;
 }
 
-function Board({cards, level, setIsGameChangePossible} : BoardProps) {
+function Board({cards, level, setIsGameChangePossible, newGameFlag, setNewGameFlag} : BoardProps) {
 
     const[flippedCards, setFlippedCards] = useState<FlippedCard[]>([]);
 
@@ -60,7 +61,7 @@ function Board({cards, level, setIsGameChangePossible} : BoardProps) {
                 setTimeout(() => {
                     setFlippedCards([]);
                     setDisabled(false);
-                }, 400);
+                }, CARD_FLIP_DURATION);
             }
         }
     }
@@ -76,6 +77,25 @@ function Board({cards, level, setIsGameChangePossible} : BoardProps) {
             gameWonDetected();
         }
     }, [pairCards]);
+
+    const resetGame = () => {
+        // zakrywamy karty, czyli zerujemy tablice pairedCards i flippedCards
+        setPairCards([]);
+        setFlippedCards([]);
+
+        setTimeout(() => {
+            setNewGameFlag(false);
+            setDisabled(false);
+            setIsGameChangePossible(true);
+        }, CARD_FLIP_DURATION)
+
+        //reset gry po ustawieniu flagi newGameFlag na true
+        useEffect(() => {
+            if(newGameFlag){
+                resetGame();
+            }
+        }, [newGameFlag])
+    }
         
     
     return (

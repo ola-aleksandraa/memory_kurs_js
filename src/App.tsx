@@ -63,9 +63,8 @@ function App() {
   const[cards, setCards] = useState<string[]>(getBoard(level));
 
   useEffect(() => {
-    if(newGameFlag){
+    if(!newGameFlag){
       setCards(getBoard(level));
-      setNewGameFlag(false);
     }
   }, [newGameFlag]);
 
